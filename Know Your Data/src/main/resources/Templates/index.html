@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Database Manager</title>
+</head>
+<body style="background-color:tan;">
+<div align="center">
+
+	<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Logout" />
+	</form>
+
+	<h1>Know Your Data</h1>
+	<img src="https://www.coloradofarmbureau.com/wp-content/uploads/2018/03/choice-hotels-768x429.jpg" alt="Choice Hotels" width="350" height="210">
+
+	<h2>DB Connection Manager</h2>
+	<a href="new">Add DB Connection</a>
+
+	<br/><br/>
+	<table border="1" cellpadding="10">
+		<thead>
+		<tr>
+			<th>DB ID</th>
+			<th>Name</th>
+			<th>URL</th>
+			<th>Details</th>
+			<th>Significance (1-10)</th>
+
+			<th sec:authorize="hasRole('ADMIN')">Actions</th>
+
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="product : ${listProducts}">
+			<td th:text="${product.id}">Product ID</td>
+			<td th:text="${product.name}">Name</td>
+			<td th:text="${product.brand}">Brand</td>
+			<td th:text="${product.madein}">Made in</td>
+			<td th:text="${product.price}">Price</td>
+			<td sec:authorize="hasRole('ADMIN')">
+				<a th:href="@{'/edit/' + ${product.id}}">Edit</a>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<a th:href="@{'/delete/' + ${product.id}}">Delete</a>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
